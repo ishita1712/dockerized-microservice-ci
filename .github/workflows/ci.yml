@@ -29,3 +29,10 @@ jobs:
 
     - name: Build Docker image
       run: docker build -t dockerized-microservice .
+
+    - name: Run container smoke test
+      run: |
+        docker run -d -p 3000:3000 --name test-container dockerized-microservice
+        sleep 5
+        curl -f http://localhost:3000/health
+        docker rm -f test-container
