@@ -34,6 +34,13 @@ jobs:
     - name: Build Docker image
       run: docker build -t dockerized-microservice .
 
+    - name: Container image vulnerability scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: dockerized-microservice
+        severity: HIGH,CRITICAL
+        exit-code: 1
+
     - name: Run container smoke test
       run: |
         docker run -d -p 3000:3000 --name test-container dockerized-microservice
