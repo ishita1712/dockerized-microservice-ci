@@ -28,6 +28,9 @@ jobs:
         npm test
         kill $(lsof -t -i:3000) || true
 
+    - name: Dependency vulnerability scan
+      run: npm audit --audit-level=high
+
     - name: Build Docker image
       run: docker build -t dockerized-microservice .
 
